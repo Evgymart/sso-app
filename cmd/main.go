@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sso/internal/config"
 
 	ssov1 "protos/gen/go/sso"
 )
@@ -13,4 +14,7 @@ func main() {
 	}
 
 	fmt.Printf("Request: %+v\n", req)
+
+	config := config.MustLoad()
+	fmt.Printf("Config: %+v\n", config)
 }

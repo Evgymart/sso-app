@@ -1,6 +1,11 @@
 package config
 
-import "time"
+import (
+	"os"
+	"time"
+
+	"github.com/ilyakaznacheev/cleanenv"
+)
 
 type Config struct {
 	Env      string        `yaml:"env"`
@@ -19,4 +24,23 @@ type Database struct {
 type GRPC struct {
 	Port    int           `yaml:"port"`
 	Timeout time.Duration `yaml:"timeout"`
+}
+
+func MustLoad() *Config {
+	configPath := os.Getenv("CONFIG_PATH")
+	if configPath == "" {
+		panic("CONFIG_PATH environment variable not set")
+	}
+
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		panic("config file does not exist: " + configPath)
+	}
+
+	var config Config
+	err := cleanenv.ReadConfig(configPath, &config)
+	if err != nil {
+		panic("read config err: " + err.Error())
+	}
+
+	return &config
 }
