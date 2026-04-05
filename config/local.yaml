@@ -1,4 +1,5 @@
 env: "local" # dev, prod
+token_ttl: 1h
 dastabase:
   host: database
   port: 5432

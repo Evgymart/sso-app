@@ -1,9 +1,12 @@
 package config
 
+import "time"
+
 type Config struct {
-	Env      string   `yaml:"env"`
-	Database Database `yaml:"database"`
-	GRPC     GRPC     `yaml:"grpc"`
+	Env      string        `yaml:"env"`
+	TokenTTL time.Duration `yaml:"token_ttl"`
+	Database Database      `yaml:"database"`
+	GRPC     GRPC          `yaml:"grpc"`
 }
 
 type Database struct {
@@ -14,6 +17,6 @@ type Database struct {
 }
 
 type GRPC struct {
-	Port    int    `yaml:"port"`
-	Timeout string `yaml:"timeout"`
+	Port    int           `yaml:"port"`
+	Timeout time.Duration `yaml:"timeout"`
 }
