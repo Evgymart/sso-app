@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: sso/docker/go/Dockerfile
+      args:
+        - APP_ENV=${APP_ENV}
+    container_name: sso-app
+    restart: unless-stopped
+    network_mode: "host"
+    env_file:
+      - .env
