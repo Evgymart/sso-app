@@ -15,10 +15,11 @@ type Config struct {
 }
 
 type Database struct {
-	Hostname string `yaml:"host"`
-	Port     int    `yaml:"port"`
-	User     string `yaml:"user"`
-	Password string `yaml:"password"`
+	Hostname string `yaml:"host" env:"DB_HOST"`
+	Port     int    `yaml:"port" env:"DB_PORT"`
+	User     string `yaml:"user" env:"POSTGRES_USER"`
+	Password string `yaml:"password" env:"POSTGRES_PASSWORD"`
+	DBName   string `yaml:"dbname" env:"POSTGRES_DB"`
 }
 
 type GRPC struct {
@@ -37,9 +38,12 @@ func MustLoad() *Config {
 	}
 
 	var config Config
-	err := cleanenv.ReadConfig(configPath, &config)
-	if err != nil {
+	if err := cleanenv.ReadConfig(configPath, &config); err != nil {
 		panic("read config err: " + err.Error())
+	}
+
+	if err := cleanenv.ReadEnv(&config); err != nil {
+		panic("read env err: " + err.Error())
 	}
 
 	return &config

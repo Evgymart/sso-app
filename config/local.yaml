@@ -1,11 +1,11 @@
 env: "local" # dev, prod
 token_ttl: 1h
 database:
-  host: ${DB_HOST:-localhost}
-  port: ${DB_PORT:-5432}
-  user: ${POSTGRES_USER:-user}
-  password: ${POSTGRES_PASSWORD:-password}
-  dbname: ${POSTGRES_DB:-sso}
+  host: localhost
+  port: 5432
+  user: user
+  password: password
+  dbname: sso
 grpc:
   port: 50051
   timeout: 10h
