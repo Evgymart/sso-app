@@ -1,10 +1,11 @@
 env: "local" # dev, prod
 token_ttl: 1h
-dastabase:
-  host: database
-  port: 5432
-  user: user
-  password: password
+database:
+  host: ${DB_HOST:-localhost}
+  port: ${DB_PORT:-5432}
+  user: ${POSTGRES_USER:-user}
+  password: ${POSTGRES_PASSWORD:-password}
+  dbname: ${POSTGRES_DB:-sso}
 grpc:
   port: 50051
   timeout: 10h
