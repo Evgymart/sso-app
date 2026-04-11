@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"sso/internal/app"
 	"sso/internal/config"
 
 	ssov1 "protos/gen/go/sso"
@@ -25,6 +26,9 @@ func main() {
 	logger := setupLogger(config.Env)
 	logger.Info(fmt.Sprintf("Request: %+v\n", req))
 	logger.Info(fmt.Sprintf("Config: %+v\n", config))
+
+	application := app.New(logger, config.GRPC.Port, config.TokenTTL)
+	application.GRPCSrv.MustRun()
 }
 
 func setupLogger(env string) *slog.Logger {
