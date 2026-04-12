@@ -13,5 +13,5 @@ WORKDIR /app
 COPY --from=builder /sso /app/
 COPY sso/config/local.yaml /app/config/config.yaml
 
-EXPOSE 8080
+EXPOSE 50051
 ENTRYPOINT ["/app/sso"]

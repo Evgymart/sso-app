@@ -8,6 +8,8 @@ services:
     container_name: sso-app
     restart: unless-stopped
     network_mode: "host"
+    ports:
+      - "${GRPC_PORT:-50051}:50051"
     env_file:
       - .env
   db:
