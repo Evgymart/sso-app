@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"os/signal"
 	"sso/internal/app"
 	"sso/internal/config"
+	"syscall"
 
 	ssov1 "protos/gen/go/sso"
 )
@@ -28,7 +30,14 @@ func main() {
 	logger.Info(fmt.Sprintf("Config: %+v\n", config))
 
 	application := app.New(logger, config.GRPC.Port, config.TokenTTL)
-	application.GRPCSrv.MustRun()
+	go application.GRPCSrv.MustRun()
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)
+
+	stopSignal := <-stop
+	application.GRPCSrv.Stop()
+	logger.Info("application stopped: ", slog.String("signal", stopSignal.String()))
 }
 
 func setupLogger(env string) *slog.Logger {
